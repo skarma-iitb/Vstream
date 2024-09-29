@@ -12,6 +12,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/account" element={<Account />} />
+          {/* Fallback route */}
+          <Route path="*" element={<h1>404 - Not Found</h1>} />
         </Routes>
       </div>
     </Router>
