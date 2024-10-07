@@ -4,18 +4,17 @@ import { NavLink } from "react-router-dom";
 function Navbar() {
   return (
     <nav class="flex px-4 border-b md:shadow-lg items-center fixed top-0 left-0 right-0">
-      <div class="text-lg font-bold md:py-0 py-4">VStream</div>
-      <ul class="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
+      <div class="text-lg font-bold md:py-0 py-4">
         <NavLink to={"/"}>
-          <li>
-            <a
-              href="/"
-              class="flex md:inline-flex p-4 items-center hover:bg-gray-50"
-            >
-              <span>Home</span>
-            </a>
-          </li>
+          <a
+            href="/"
+            class="flex md:inline-flex p-4 items-center  cursor-pointer"
+          >
+            <span>VStream</span>
+          </a>
         </NavLink>
+      </div>
+      <ul class="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
         <NavLink to={"/login"}>
           <li>
             <a
