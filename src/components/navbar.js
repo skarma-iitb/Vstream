@@ -17,6 +17,8 @@ function Navbar() {
       <ul class="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
         <NavLink to={"/login"}>
           <li>
+            
+            
             <a
               href="/login"
               class="flex md:inline-flex p-4 items-center hover:bg-gray-50"
