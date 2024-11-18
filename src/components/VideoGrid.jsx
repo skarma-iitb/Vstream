@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Play, ThumbsUp, Eye } from "lucide-react";
+import { Play, ThumbsUp, Eye, Clock } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 
@@ -40,7 +40,6 @@ export const videos = [
     creator: "JS Ninja",
     createdAt: "2024-02-13T09:15:00Z",
   },
-  // Add more videos as needed
 ];
 
 export const getVideos = () => {
@@ -66,7 +65,21 @@ export const getVideoById = (id) => {
 
 const VideoBox = ({ video }) => {
   const navigate = useNavigate();
-  const { id, title, thumbnail, views, likes, creator, createdAt } = video;
+  const { id, title, thumbnail, views, likes, creator, createdAt, duration } =
+    video;
+
+  const formatDuration = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    if (hours > 0) {
+      return `${hours}:${minutes.toString().padStart(2, "0")}:${remainingSeconds
+        .toString()
+        .padStart(2, "0")}`;
+    }
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -79,29 +92,43 @@ const VideoBox = ({ video }) => {
   return (
     <div
       onClick={() => navigate(`/video/${id}`)}
-      className="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer transform transition hover:scale-105 hover:shadow-lg"
+      className="group bg-white rounded-xl shadow-md overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
     >
-      <div className="relative">
-        <img src={thumbnail} alt={title} className="w-full h-48 object-cover" />
-        <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-          <Play className="w-12 h-12 text-white" />
+      <div className="relative aspect-video">
+        <img
+          src={thumbnail}
+          alt={title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <Play className="w-16 h-16 text-white drop-shadow-lg" fill="white" />
+        </div>
+        <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/80 text-white text-sm rounded-md flex items-center">
+          <Clock className="w-3 h-3 mr-1" />
+          {formatDuration(duration)}
         </div>
       </div>
       <div className="p-4">
-        <h3 className="font-semibold text-lg mb-2 line-clamp-2">{title}</h3>
-        <div className="flex items-center text-sm text-gray-600 mb-2">
-          <span className="font-medium">{creator}</span>
+        <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+          {title}
+        </h3>
+        <div className="flex items-center text-sm text-gray-700 mb-2">
+          <span className="font-medium hover:text-indigo-600 transition-colors">
+            {creator}
+          </span>
         </div>
-        <div className="flex items-center space-x-4 text-sm text-gray-500">
-          <div className="flex items-center">
-            <Eye className="w-4 h-4 mr-1" />
-            {views.toLocaleString()}
+        <div className="flex items-center justify-between text-sm text-gray-500">
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center">
+              <Eye className="w-4 h-4 mr-1" />
+              {views.toLocaleString()}
+            </div>
+            <div className="flex items-center">
+              <ThumbsUp className="w-4 h-4 mr-1" />
+              {likes.toLocaleString()}
+            </div>
           </div>
-          <div className="flex items-center">
-            <ThumbsUp className="w-4 h-4 mr-1" />
-            {likes.toLocaleString()}
-          </div>
-          <div>{formatDate(createdAt)}</div>
+          <div className="text-gray-400">{formatDate(createdAt)}</div>
         </div>
       </div>
     </div>

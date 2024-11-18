@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ThumbsUp, Eye, ArrowLeft, Loader2 } from "lucide-react";
 import { getVideoById } from "./VideoGrid";
+import Comments from "./Comment";
 
 const VideoPlayer = () => {
   const { id } = useParams();
@@ -76,16 +77,29 @@ const VideoPlayer = () => {
               <Eye className="w-5 h-5 mr-1" />
               {video.views.toLocaleString()} views
             </div>
-            <div className="flex items-center text-gray-600">
-              <ThumbsUp className="w-5 h-5 mr-1" />
-              {video.likes.toLocaleString()} likes
-            </div>
+            <button
+              // yaha like function
+              // onClick={}
+              className={`flex items-center px-3 py-1 rounded-full ${
+                video.isLiked
+                  ? "bg-indigo-100 text-indigo-600"
+                  : "hover:bg-gray-100 text-gray-600"
+              }`}
+            >
+              <ThumbsUp
+                className={`w-5 h-5 mr-1 ${
+                  video.isLiked ? "fill-current" : ""
+                }`}
+              />
+              {video.likes.toLocaleString()}
+            </button>
           </div>
         </div>
         <div className="border-t pt-4">
           <h3 className="font-semibold mb-2">{video.creator}</h3>
           <p className="text-gray-700">{video.description}</p>
         </div>
+        <Comments videoId={video.id} />
       </div>
     </div>
   );
